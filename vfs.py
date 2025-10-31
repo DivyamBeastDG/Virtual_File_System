@@ -941,7 +941,7 @@ Example: Reading a file (/home/user/readme.txt)
 
 
 ╔══════════════════════════════════════════════════════════════════════════╗
-║                    DEVELOPED FOR VIRTUAL FILE STIMULATION                 ║
+║                    DEVELOPED FOR VIRTUAL FILE SIMULATION                  ║
 ╚══════════════════════════════════════════════════════════════════════════╝
 
 This simulator demonstrates:
@@ -968,4 +968,5 @@ def main():
     root.mainloop()
 
 if __name__ == "__main__":
+
     main()
