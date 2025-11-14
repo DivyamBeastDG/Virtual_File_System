@@ -6,20 +6,21 @@ The Virtual File System (VFS) Simulator is a Python-based desktop application bu
 It abstracts the underlying storage mechanisms to allow users to interact with files and directories, while providing real-time logging and performance statistics for operations like file creation, reading, and directory traversal, specifically highlighting the role of Dentry and Inode Caching.
 
 Key Features
-GUI Interface: A modern, dark-themed user interface (GUI) built with Tkinter for intuitive file system interaction.
+- **GUI Interface**: A modern, dark-themed user interface (GUI) built with Tkinter for intuitive file system interaction.
 
-Virtual File System Model: Simulates a hierarchical file structure with support for files, directories, and unique Inodes.
+- **Virtual File System Model**: Simulates a hierarchical file structure with support for files, directories, and unique Inodes.
 
-System Call Logging: Records and displays a log of every file system operation (e.g., CREATE, READDIR, CHDIR, READ, WRITE).
+- **System Call Logging**: Records and displays a log of every file system operation (e.g., CREATE, READDIR, CHDIR, READ, WRITE).
 
-Caching Simulation: Includes logic for Dentry Cache (directory entries) and Inode Cache, and tracks Cache Hits and Cache Misses in real-time.
+- **Caching Simulation**: Includes logic for Dentry Cache (directory entries) and Inode Cache, and tracks Cache Hits and Cache Misses in real-time.
 
-Statistics Panel: Displays key performance metrics, including total files/directories, total operations, and cache hit rate.
+- **Statistics Panel**: Displays key performance metrics, including total files/directories, total operations, and cache hit rate.
 
-Multi-Filesystem Support: Allows for "mounting" and simulating different file system types (e.g., EXT4, NTFS, BTRFS) for demonstration purposes.
+- **Multi-Filesystem Support**: Allows for "mounting" and simulating different file system types (e.g., EXT4, NTFS, BTRFS) for demonstration purposes.
 
-Installation and Usage
-Prerequisites
+
+## Installation and Usage
+### Prerequisites
 
 You need Python 3.x installed on your system. The program only relies on standard built-in Python libraries.
 
