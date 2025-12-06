@@ -54,6 +54,7 @@ Represents both files and directories.
 ### **Filesystem Map**
 ```python
 self.filesystem: Dict[str, FSItem]
+```
 
 Key format: full path (e.g. /home/user/readme.txt)
 
@@ -140,6 +141,7 @@ Top bar	Title + filesystem selection dropdown
 Left panel	File explorer tree + action buttons
 Right panel	Statistics + cache info + operations log
 Popup windows	File view/edit + architecture explanation window
+
 7. Design Goals
 
 Demonstrate real OS VFS behavior visually
