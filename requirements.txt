@@ -1,0 +1,5 @@
+# Virtual File System Simulator - Requirements
+# No external libraries are needed. All imports are part of Python standard library.
+
+python>=3.10
+tkinter
