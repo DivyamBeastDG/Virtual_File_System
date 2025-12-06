@@ -122,7 +122,7 @@ Right panel — Stats & Log
 
 ---
 
-## VFS operations and behavior (implementation detail)
+## VFS operations and behavior
 
 - Path mapping: The simulator keeps an in-memory dictionary mapping full paths (strings) to `FSItem`.
 - Inode simulation: Each created item receives an incrementing numeric inode ID.
