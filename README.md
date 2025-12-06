@@ -13,7 +13,7 @@ Table of contents
 - [Running the simulator](#running-the-simulator)
 - [How to use the GUI](#how-to-use-the-gui)
 - [VFS operations and behavior](#vfs-operations-and-behavior)
-- [Implementation notes](#implementation-notes)
+- [Implementation notes](#implementation-notes--extension-ideas)
 - [Contributing](#contributing)
 
 ---
