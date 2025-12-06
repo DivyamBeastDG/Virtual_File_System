@@ -36,7 +36,8 @@
 
 ---
 
-## 2. Core Data Structures
+##
+2. Core Data Structures
 
 ### **FSItem**
 Represents both files and directories.
