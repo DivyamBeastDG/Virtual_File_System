@@ -1,77 +1,180 @@
-# Virtual_File_System
-Virtual File System (VFS) Simulator
-Overview
-The Virtual File System (VFS) Simulator is a Python-based desktop application built using Tkinter. It serves as an educational tool to demonstrate fundamental concepts of a modern operating system's file system layer.
+# Virtual File System (VFS) Simulator
 
-It abstracts the underlying storage mechanisms to allow users to interact with files and directories, while providing real-time logging and performance statistics for operations like file creation, reading, and directory traversal, specifically highlighting the role of Dentry and Inode Caching.
+A desktop-based Virtual File System (VFS) simulator written in Python with a modern Tkinter GUI. This project is an educational tool to demonstrate fundamental OS file-system concepts such as hierarchical file structures, inodes, dentry & inode caching, system call logging, and performance metrics — all wrapped in an approachable user interface.
 
-Key Features
-GUI Interface: A modern, dark-themed user interface (GUI) built with Tkinter for intuitive file system interaction.
+---
 
-Virtual File System Model: Simulates a hierarchical file structure with support for files, directories, and unique Inodes.
+Table of contents
+- [Demo](#demo)
+- [Highlights](#highlights)
+- [Features](#features)
+- [Project structure & key classes](#project-structure--key-classes)
+- [Installation](#installation)
+- [Running the simulator](#running-the-simulator)
+- [How to use the GUI](#how-to-use-the-gui)
+- [VFS operations and behavior](#vfs-operations-and-behavior)
+- [Implementation notes](#implementation-notes)
+- [Contributing](#contributing)
 
-System Call Logging: Records and displays a log of every file system operation (e.g., CREATE, READDIR, CHDIR, READ, WRITE).
+---
 
-Caching Simulation: Includes logic for Dentry Cache (directory entries) and Inode Cache, and tracks Cache Hits and Cache Misses in real-time.
+## Demo
 
-Statistics Panel: Displays key performance metrics, including total files/directories, total operations, and cache hit rate.
+Start the application and explore a small prepopulated VFS (root, /home/user, /etc, /var/log, etc.). You can create/delete files & directories, view and edit file contents, switch between simulated file system types (ext4, ntfs, fat32, btrfs, xfs, nfs), view caching stats and operation logs, and inspect an illustrated VFS architecture from the UI.
 
-Multi-Filesystem Support: Allows for "mounting" and simulating different file system types (e.g., EXT4, NTFS, BTRFS) for demonstration purposes.
+---
 
-Installation and Usage
-Prerequisites
+## Highlights
 
-You need Python 3.x installed on your system. The program only relies on standard built-in Python libraries.
+- Modern, dark-themed Tkinter GUI
+- File/directory creation, deletion, reading, and writing
+- Dentry (path) and Inode caching simulation with hit/miss counting
+- Real-time operation logging (CREATE, READ, WRITE, CHDIR, READDIR, DELETE, CACHE_CLEAR)
+- Multi-filesystem mounting simulation (ext4, NTFS, FAT32, BTRFS, XFS, NFS)
+- Small, self-contained Python codebase (no external dependencies beyond the standard library)
 
-Running the Simulator
+---
 
-Save the Code: Save the provided Python code into a file named, for example, vfs_simulator.py.
+## Features
 
-Execute the Script: Open your terminal or command prompt, navigate to the directory where you saved the file, and run:
+- GUI file browser with:
+  - Double-click navigation
+  - Create file/folder, Delete, View, Edit, Refresh
+  - Parent directory navigation (`..`), Home and Back buttons
+- Statistics dashboard:
+  - Total files, total directories
+  - Total operations
+  - Cache hits, cache misses and hit rate
+- Operation log viewer (most recent 50 operations)
+- Clear Dentry & Inode caches to simulate cache misses
+- Mounting a different filesystem resets the VFS to a clean prepopulated state
+- VFS architecture viewer describing layers and concepts
 
-Bash
-python vfs_simulator.py
-The GUI window will open, and the VFS will be initialized with a base structure (root, home/user, etc.).
+---
 
-How to Use
-The application is split into two main panels:
+## Project structure & key classes
 
-Left Panel: File Explorer
+- `vfs.py` — the main file that contains the entire simulator (GUI + backend).
+  - `FileSystemType` (Enum): Supported filesystem identifiers (ext4, ntfs, fat32, btrfs, xfs, nfs).
+  - `ItemType` (Enum): FILE or DIRECTORY.
+  - `FSItem` (dataclass): Representation of a file/directory, including name, inode, creation time, size, content and children.
+  - `Operation` (dataclass): Small struct used for operation logging (timestamp, operation name, path, filesystem, success).
+  - `Statistics`: Tracks counts for files, directories, operations, cache hits and misses.
+  - `VirtualFileSystem`: Core logic that maintains an in-memory map of path → FSItem, simulates inodes, dentry & inode caches, and logs operations.
+  - `VFSGuiApp`: Tkinter GUI that binds user actions to `VirtualFileSystem` methods, renders file lists, stats, and operation logs.
 
-Navigation: Double-click on a folder to navigate into it, or double-click the .. entry to go up to the parent directory. You can also use the (Home) and (Back) buttons.
+---
 
-Operations: Use the toolbar buttons for:
+## Installation
 
-New Folder/File: Prompts for a name to create an item in the current directory.
+Requirements:
+- Python 3.7+ (stdlib only; Tkinter is required and typically bundled with standard Python distributions)
 
-Delete: Removes the selected file or an empty directory.
+Clone the repo (or download the `vfs.py` file) and run:
 
-View/Edit: Opens a separate window to view or modify the content of a selected file.
+```bash
+git clone https://github.com/DivyamBeastDG/Virtual_File_System.git
+cd Virtual_File_System
+```
 
-Columns: Displays crucial VFS information: Name, Type (FILE/DIR), Size/Items, Inode (a unique ID), and Creation Timestamp.
+No extra pip packages are required.
 
-Right Panel: Statistics and Log
+---
 
-System Statistics: Watch these counters to understand the VFS's performance:
+## Running the simulator
 
-Cache Hits/Misses: Increases when file or directory lookup uses (Hit) or misses (Miss) the in-memory cache.
+From the project root:
 
-Hit Rate: Indicates the efficiency of the caching mechanism.
+```bash
+python vfs.py
+```
 
-Operations Log: Displays the 50 most recent system calls, noting the operation (READ, WRITE, CHDIR, etc.), the path, and a success status.
+This will launch the GUI window and initialize the simulated VFS with a small default structure:
+- `/` (root)
+- `/home/user/` with sample files (e.g. `readme.txt`)
+- `/etc/config.txt`
+- `/var/log/system.log`
 
-Clear Cache: Clear Cache button to manually flush the Dentry and Inode caches, demonstrating how subsequent operations will incur Cache Misses until the caches are repopulated.
+---
 
-Change File System: Use the dropdown menu in the top right to re-mount the VFS with a different, purely illustrative file system type.
+## How to use the GUI
 
-Project Structure
-The Python file is organized around key classes:
+Left panel — File Explorer
+- Double-click a folder to navigate into it.
+- Use the Home (🏠) button to jump back to `/`.
+- Use Back (⬅️) to go up one directory (`..`).
+- Toolbar:
+  - "📁 New Folder" — create a directory in the current folder
+  - "📄 New File" — create an empty file in the current folder
+  - "🗑️ Delete" — delete selected file or empty directory (won't permit deleting non-empty directories)
+  - "👁️ View" — open a read-only window to view file contents
+  - "✏️ Edit" — open an editor window, modify and save contents back to the VFS
+  - "🔄 Refresh" — refresh the file list and stats
 
-Class	Description
-FileSystemType (Enum)	Defines supported file system types (e.g., EXT4, NTFS).
-ItemType (Enum)	Defines content types: FILE or DIRECTORY.
-FSItem (dataclass)	Represents a single file or directory, including inode, name, content, and list of children.
-Operation (dataclass)	Data structure for logging system activities.
-Statistics	Tracks file/directory counts and cache performance.
-VirtualFileSystem	The core logic. Handles operations (create, delete, chdir), maintains the file system structure (self.filesystem), and manages the caches and log.
-VFSGuiApp	The Tkinter application class. Handles the GUI creation, styling, button logic, and connecting user actions to the VirtualFileSystem backend.
+Right panel — Stats & Log
+- Live counts for files, directories, and operations
+- Cache Hits / Cache Misses and a computed Hit Rate
+- Operation log viewer lists recent system calls and their status (success/failure)
+- "🗑️ Clear Cache" clears dentry and inode caches to demonstrate cache miss behavior
+- "File System" combobox (top-right) allows switching the simulated file system (resets the VFS)
+
+"🏗️ View VFS Architecture" shows a descriptive document that explains the VFS layering and common system call flow.
+
+---
+
+## VFS operations and behavior (implementation detail)
+
+- Path mapping: The simulator keeps an in-memory dictionary mapping full paths (strings) to `FSItem`.
+- Inode simulation: Each created item receives an incrementing numeric inode ID.
+- Caches:
+  - Dentry cache maps paths → FSItem (simulates directory-entry path resolution caching).
+  - Inode cache maps inode IDs → FSItem (simulates caching file metadata/content).
+  - Cache hits/misses are counted when `change_directory()` or `read_file()` are called and an entry exists/does not exist in the relevant cache.
+- Operation logging: Every user action that interacts with the VFS is logged as an `Operation` with a timestamp and success state. The log displays the last 50 operations.
+- Safety checks:
+  - Prevent creating items with invalid names (empty or containing `/`).
+  - Prevent creating items that already exist.
+  - Prevent deleting non-empty directories.
+
+---
+
+## Example flows
+
+- Create a folder:
+  1. Click "📁 New Folder"
+  2. Enter a valid name (no slashes)
+  3. The GUI will show a success message and refresh the listing
+
+- View & edit a file:
+  1. Select a file and click "👁️ View" to read contents
+  2. Select a file and click "✏️ Edit" to modify; click "💾 Save" to write back
+  3. Saving triggers a `WRITE` operation; reading triggers a `READ` operation and may update the inode cache
+
+- Simulate cache behavior:
+  1. Perform directory changes and reads to populate caches
+  2. Inspect "Cache Hits" and "Cache Misses" counters in the right panel
+  3. Click "🗑️ Clear Cache" to flush caches; subsequent operations will produce misses until caches are repopulated
+
+---
+
+## Implementation notes & extension ideas
+
+- `vfs.py` is self-contained and small — a good starting point for demonstrations and classroom use.
+- Possible extensions:
+  - Persist the virtual filesystem to disk (e.g. JSON file) so changes survive restarts
+  - Add permission/ownership simulation and access checks (r/w/x)
+  - Add simulated block-level read/write latency or I/O statistics
+  - Add a searchable operation log and filtering (by operation type, path, success/failure)
+  - Add visual diagrams and richer architecture views
+  - Add automated tests for the `VirtualFileSystem` API
+
+---
+
+## Contributing
+
+Contributions, suggestions and fixes are welcome. Please open issues for feature requests or bug reports, and submit pull requests for proposed code changes. Keep changes small and focused for easier review.
+
+---
+
+Acknowledgements
+- Built for educational purposes to illustrate core VFS concepts with a GUI frontend and a compact Python backend.
